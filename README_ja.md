@@ -1,0 +1,43 @@
+# SwitchBot MCP Server
+
+[English version is here.](README.md)
+
+SwitchBot MCP Serverは[SwitchBotAPI](https://github.com/OpenWonderLabs/SwitchBotAPI)を使用してSwitchBotのデバイスを会話で操作できる機能を提供する[Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction)をサーバです。
+
+## 使用例
+
+- SwitchBotのデバイスを対話を通して操作する
+- 複数のデバイスに対する操作を一度に行う
+- デバイスから取得したデータを元に別のデバイスの操作を行う
+
+## インストール方法
+
+### シークレットとトークンの準備
+
+[SwitchBotAPIのGetting Started](https://github.com/OpenWonderLabs/SwitchBotAPI?tab=readme-ov-file#getting-started)に従って、SwitchBotAPIのトークンとシークレットを取得してください。
+
+### Claude Desktopで使用する場合の設定
+
+```json
+{
+  "mcpServers": {
+    "switchbot": {
+      "command": "~/Downloads/switch-bot-mcp-server",
+      "env": {
+        "SWITCH_BOT_TOKEN": "YOUR_SWITCH_BOT_TOKEN",
+        "SWITCH_BOT_SECRET": "YOUR_SWITCH_BOT_SECRET"
+      }
+    }
+  }
+}
+```
+
+## 利用可能なツール
+
+現在はデバイスの取得とステータスの取得、ON/OFFコマンドの実行の一部ツールのみが利用可能です。
+
+| Tool Name                      | Description                 |
+|--------------------------------|-----------------------------|
+| `get_switch_bot_devices`       | Get SwitchBot devices       |
+| `get_switch_bot_device_status` | Get SwitchBot device status |
+| `turn_on_off_device`           | Turn on/off device          |
