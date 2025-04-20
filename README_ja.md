@@ -12,6 +12,10 @@ SwitchBot MCP Serverは[SwitchBotAPI](https://github.com/OpenWonderLabs/SwitchBo
 
 ## インストール方法
 
+### バイナリ準備
+
+[リリースページ](https://github.com/yasu89/switch-bot-mcp-server/releases)からダウンロードしてください。
+
 ### シークレットとトークンの準備
 
 [SwitchBotAPIのGetting Started](https://github.com/OpenWonderLabs/SwitchBotAPI?tab=readme-ov-file#getting-started)に従って、SwitchBotAPIのトークンとシークレットを取得してください。

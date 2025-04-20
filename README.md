@@ -12,6 +12,10 @@ The SwitchBot MCP Server is a [Model Context Protocol (MCP)](https://modelcontex
 
 ## Installation
 
+### Prepare binary
+
+Download binary from [release page](https://github.com/yasu89/switch-bot-mcp-server/releases).
+
 ### Prepare secret and token
 
 Follow the [Getting Started guide of SwitchBotAPI](https://github.com/OpenWonderLabs/SwitchBotAPI?tab=readme-ov-file#getting-started) to obtain the token and secret for SwitchBotAPI.
