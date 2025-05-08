@@ -9,7 +9,7 @@ import (
 	"github.com/yasu89/switch-bot-api-go"
 )
 
-// GetDeviceListTool create a tool to get the list of SwitchBot devices.
+// GetDeviceListTool creates a tool to get the list of SwitchBot devices.
 func GetDeviceListTool(switchBotClient *switchbot.Client) (tool mcp.Tool, handler server.ToolHandlerFunc) {
 	return mcp.NewTool(
 			"get_switch_bot_devices",
