@@ -9,10 +9,9 @@ import (
 	"github.com/yasu89/switch-bot-api-go"
 )
 
-// AddTurnOnOffDeviceTool adds a tool to the MCP server that turns on/off a specific SwitchBot device.
-func AddTurnOnOffDeviceTool(mcpServer *server.MCPServer, switchBotClient *switchbot.Client) {
-	mcpServer.AddTool(
-		mcp.NewTool(
+// GetTurnOnOffDeviceTool creates a tool to turn on/off a specific SwitchBot device.
+func GetTurnOnOffDeviceTool(switchBotClient *switchbot.Client) (tool mcp.Tool, handler server.ToolHandlerFunc) {
+	return mcp.NewTool(
 			"turn_on_off_device",
 			mcp.WithDescription("Turn on/off device"),
 			mcp.WithString(
@@ -82,6 +81,5 @@ func AddTurnOnOffDeviceTool(mcpServer *server.MCPServer, switchBotClient *switch
 			}
 
 			return mcp.NewToolResultError("Device not found"), nil
-		},
-	)
+		}
 }

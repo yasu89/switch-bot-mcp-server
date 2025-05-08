@@ -32,7 +32,7 @@ func main() {
 
 	tools.AddGetDevicesTool(mcpServer, switchBotClient)
 	tools.AddGetDeviceStatusTool(mcpServer, switchBotClient)
-	tools.AddTurnOnOffDeviceTool(mcpServer, switchBotClient)
+	mcpServer.AddTool(tools.GetTurnOnOffDeviceTool(switchBotClient))
 
 	// Start the server
 	if err := server.ServeStdio(mcpServer); err != nil {
