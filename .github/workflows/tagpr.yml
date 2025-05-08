@@ -1,0 +1,14 @@
+name: tagpr
+on:
+  push:
+    branches: ["main"]
+jobs:
+  tagpr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+    - uses: Songmu/tagpr@35daec35e8e3172806c763d8f196e6434fd44fbd # v1.5.2

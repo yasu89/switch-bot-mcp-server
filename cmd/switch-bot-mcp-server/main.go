@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/mark3labs/mcp-go/server"
 	"github.com/yasu89/switch-bot-mcp-server/tools"
+	"github.com/yasu89/switch-bot-mcp-server/version"
 	"log"
 	"os"
 
@@ -25,7 +26,7 @@ func main() {
 	// Create a new MCP server
 	mcpServer := server.NewMCPServer(
 		"SwitchBot MCP",
-		"0.1.0",
+		version.Version,
 		server.WithResourceCapabilities(true, true),
 		server.WithLogging(),
 	)

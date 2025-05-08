@@ -1,0 +1,19 @@
+changelog:
+  exclude:
+    labels:
+      - tagpr
+  categories:
+    - title: Breaking Changes 🛠
+      labels:
+        - major
+        - breaking-change
+    - title: Exciting New Features 🎉
+      labels:
+        - minor
+        - enhancement
+    - title: Fix bug 🐛
+      labels:
+        - bug
+    - title: Other Changes
+      labels:
+        - "*"
