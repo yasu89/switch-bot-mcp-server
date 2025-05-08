@@ -9,10 +9,9 @@ import (
 	"github.com/yasu89/switch-bot-api-go"
 )
 
-// AddGetDevicesTool adds a tool to the MCP server that retrieves SwitchBot devices.
-func AddGetDevicesTool(mcpServer *server.MCPServer, switchBotClient *switchbot.Client) {
-	mcpServer.AddTool(
-		mcp.NewTool(
+// GetDeviceListTool create a tool to get the list of SwitchBot devices.
+func GetDeviceListTool(switchBotClient *switchbot.Client) (tool mcp.Tool, handler server.ToolHandlerFunc) {
+	return mcp.NewTool(
 			"get_switch_bot_devices",
 			mcp.WithDescription("Get SwitchBot devices"),
 		),
@@ -28,8 +27,7 @@ func AddGetDevicesTool(mcpServer *server.MCPServer, switchBotClient *switchbot.C
 			}
 
 			return mcp.NewToolResultText(string(responseJsonText)), nil
-		},
-	)
+		}
 }
 
 // AddGetDeviceStatusTool adds a tool to the MCP server that retrieves the status of a specific SwitchBot device.

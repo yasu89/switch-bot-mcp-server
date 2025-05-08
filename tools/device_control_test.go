@@ -100,10 +100,10 @@ func Test_GetTurnOnOffDeviceTool(t *testing.T) {
 			_, handler := tools.GetTurnOnOffDeviceTool(client)
 
 			request := createMCPRequest(testData.args)
-
 			_, err := handler(context.Background(), request)
 			assert.NoError(t, err)
 
+			switchBotMock.AssertCallCount(http.MethodGet, "/devices", 1)
 			switchBotMock.AssertCallCount(http.MethodPost, "/devices/"+testData.expectedDeviceID+"/commands", 1)
 		})
 	}
