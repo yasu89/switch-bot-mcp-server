@@ -81,6 +81,15 @@ func assertDevicesResponse(t *testing.T, response *switchbot.GetDevicesResponseB
 	}
 }
 
+// assertBody is a helper function to assert the body of a response.
+func assertBody(t *testing.T, response interface{}, expected interface{}) {
+	t.Helper()
+
+	if !reflect.DeepEqual(response, expected) {
+		t.Fatalf("Expected body %s, got %s", jsonDump(t, expected), jsonDump(t, response))
+	}
+}
+
 // jsonDump is a helper function to pretty-print JSON data for debugging.
 func jsonDump(t *testing.T, data interface{}) string {
 	t.Helper()

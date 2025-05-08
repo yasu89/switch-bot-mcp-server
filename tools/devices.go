@@ -30,10 +30,9 @@ func GetDeviceListTool(switchBotClient *switchbot.Client) (tool mcp.Tool, handle
 		}
 }
 
-// AddGetDeviceStatusTool adds a tool to the MCP server that retrieves the status of a specific SwitchBot device.
-func AddGetDeviceStatusTool(mcpServer *server.MCPServer, switchBotClient *switchbot.Client) {
-	mcpServer.AddTool(
-		mcp.NewTool(
+// GetDeviceStatusTool create a tool to get the status of a specific SwitchBot device.
+func GetDeviceStatusTool(switchBotClient *switchbot.Client) (tool mcp.Tool, handler server.ToolHandlerFunc) {
+	return mcp.NewTool(
 			"get_switch_bot_device_status",
 			mcp.WithDescription("Get SwitchBot device status"),
 			mcp.WithString(
@@ -72,6 +71,5 @@ func AddGetDeviceStatusTool(mcpServer *server.MCPServer, switchBotClient *switch
 			}
 
 			return mcp.NewToolResultError("Device not found"), nil
-		},
-	)
+		}
 }

@@ -31,7 +31,7 @@ func main() {
 	)
 
 	mcpServer.AddTool(tools.GetDeviceListTool(switchBotClient))
-	tools.AddGetDeviceStatusTool(mcpServer, switchBotClient)
+	mcpServer.AddTool(tools.GetDeviceStatusTool(switchBotClient))
 	mcpServer.AddTool(tools.GetTurnOnOffDeviceTool(switchBotClient))
 
 	// Start the server

@@ -91,3 +91,72 @@ func Test_GetDeviceListTool(t *testing.T) {
 		switchBotMock.AssertCallCount(http.MethodGet, "/devices", 1)
 	})
 }
+
+func Test_GetDeviceStatusTool(t *testing.T) {
+	t.Run("Test tool", func(t *testing.T) {
+		client := switchbot.NewClient("secret", "token")
+		tool, _ := tools.GetDeviceStatusTool(client)
+
+		assert.Equal(t, "get_switch_bot_device_status", tool.Name)
+		assert.NotEmpty(t, tool.Description)
+		assert.Contains(t, tool.InputSchema.Properties, "device_id")
+		assert.ElementsMatch(t, tool.InputSchema.Required, []string{"device_id"})
+	})
+
+	t.Run("Test handler", func(t *testing.T) {
+		switchBotMock := helpers.NewSwitchBotMock(t)
+		switchBotMock.RegisterDevicesMock(
+			[]interface{}{
+				map[string]interface{}{
+					"deviceId":           "ABCDEF123456",
+					"deviceType":         "Bot",
+					"hubDeviceId":        "123456789",
+					"deviceName":         "BotDevice",
+					"enableCloudService": true,
+				},
+			},
+			[]interface{}{},
+		)
+		switchBotMock.RegisterStatusMock("ABCDEF123456", map[string]interface{}{
+			"deviceId":    "ABCDEF123456",
+			"deviceType":  "Bot",
+			"hubDeviceId": "123456789",
+			"power":       "ON",
+			"battery":     100,
+			"version":     "1.0",
+			"deviceMode":  "pressMode",
+		})
+		testServer := switchBotMock.NewTestServer()
+		defer testServer.Close()
+
+		client := switchbot.NewClient("secret", "token", switchbot.OptionBaseApiURL(testServer.URL))
+		_, handler := tools.GetDeviceStatusTool(client)
+
+		request := createMCPRequest(map[string]interface{}{"device_id": "ABCDEF123456"})
+		result, err := handler(context.Background(), request)
+		assert.NoError(t, err)
+
+		textContent := getTextResult(t, result)
+
+		var deviceStatusResponse switchbot.BotDeviceStatusBody
+		err = json.Unmarshal([]byte(textContent.Text), &deviceStatusResponse)
+		assert.NoError(t, err)
+
+		expectedBody := &switchbot.BotDeviceStatusBody{
+			CommonDevice: switchbot.CommonDevice{
+				DeviceID:    "ABCDEF123456",
+				DeviceType:  "Bot",
+				HubDeviceId: "123456789",
+			},
+			Power:      "ON",
+			Battery:    100,
+			Version:    "1.0",
+			DeviceMode: "pressMode",
+		}
+
+		assertBody(t, &deviceStatusResponse, expectedBody)
+
+		switchBotMock.AssertCallCount(http.MethodGet, "/devices", 1)
+		switchBotMock.AssertCallCount(http.MethodGet, "/devices/ABCDEF123456/status", 1)
+	})
+}
