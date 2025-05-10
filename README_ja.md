@@ -1,5 +1,10 @@
 # SwitchBot MCP Server
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/yasu89/switch-bot-mcp-server)](https://goreportcard.com/report/github.com/yasu89/switch-bot-mcp-server)
+![Coverage](https://raw.githubusercontent.com/yasu89/octocovs/main/badges/yasu89/switch-bot-mcp-server/coverage.svg)
+![Code to Test Ratio](https://raw.githubusercontent.com/yasu89/octocovs/main/badges/yasu89/switch-bot-mcp-server/ratio.svg)
+![Test Execution Time](https://raw.githubusercontent.com/yasu89/octocovs/main/badges/yasu89/switch-bot-mcp-server/time.svg)
+
 [English version is here.](README.md)
 
 SwitchBot MCP Serverは[SwitchBotAPI](https://github.com/OpenWonderLabs/SwitchBotAPI)を使用してSwitchBotのデバイスを会話で操作できる機能を提供する[Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction)をサーバです。

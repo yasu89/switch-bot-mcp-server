@@ -1,5 +1,10 @@
 # SwitchBot MCP Server
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/yasu89/switch-bot-mcp-server)](https://goreportcard.com/report/github.com/yasu89/switch-bot-mcp-server)
+![Coverage](https://raw.githubusercontent.com/yasu89/octocovs/main/badges/yasu89/switch-bot-mcp-server/coverage.svg)
+![Code to Test Ratio](https://raw.githubusercontent.com/yasu89/octocovs/main/badges/yasu89/switch-bot-mcp-server/ratio.svg)
+![Test Execution Time](https://raw.githubusercontent.com/yasu89/octocovs/main/badges/yasu89/switch-bot-mcp-server/time.svg)
+
 [日本語はこちら](README_ja.md)
 
 The SwitchBot MCP Server is a [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction) server that provides a feature to control SwitchBot devices interactively using [SwitchBotAPI](https://github.com/OpenWonderLabs/SwitchBotAPI).
