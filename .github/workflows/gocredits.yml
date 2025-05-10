@@ -16,6 +16,5 @@ jobs:
       with:
         go-version-file: go.mod
     - name: Install dependencies
-      shell: bash
       run: go mod tidy
     - uses: yasu89/gocredits-action@de0d1b0dbcf41cbb27ef205029e65454045790ee # v1.0.0
