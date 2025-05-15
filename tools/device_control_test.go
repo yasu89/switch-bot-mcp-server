@@ -11,20 +11,21 @@ import (
 	"github.com/yasu89/switch-bot-mcp-server/tools"
 )
 
-func Test_GetTurnOnOffDeviceTool(t *testing.T) {
+func Test_GetExecuteCommandTool(t *testing.T) {
 	t.Run("Test tool", func(t *testing.T) {
 		client := switchbot.NewClient("secret", "token")
-		tool, _ := tools.GetTurnOnOffDeviceTool(client)
+		tool, _ := tools.GetExecuteCommandTool(client)
 
-		assert.Equal(t, "turn_on_off_device", tool.Name)
+		assert.Equal(t, "execute_command", tool.Name)
 		assert.NotEmpty(t, tool.Description)
 		assert.Contains(t, tool.InputSchema.Properties, "device_id")
-		assert.Contains(t, tool.InputSchema.Properties, "is_turn_on")
-		assert.ElementsMatch(t, tool.InputSchema.Required, []string{"device_id", "is_turn_on"})
+		assert.Contains(t, tool.InputSchema.Properties, "command_parameter_json")
+		assert.ElementsMatch(t, tool.InputSchema.Required, []string{"device_id", "command_parameter_json"})
 	})
 
-	physicalDeviceID := "ABCDEF123456"
-	infraredDeviceId := "ABCDEF654321"
+	physicalBotDeviceID := "BOT123456"
+	physicalCeilingLightDeviceID := "CEILINGLIGHT123456"
+	infraredDeviceId := "AIRCONDITIONER654321"
 
 	testDataList := []struct {
 		name             string
@@ -33,39 +34,57 @@ func Test_GetTurnOnOffDeviceTool(t *testing.T) {
 		args             map[string]interface{}
 	}{
 		{
-			name:             "Test handler physical device TurnOn",
-			expectedBody:     "{\"commandType\": \"command\",\"command\": \"turnOn\",\"parameter\": \"default\"}",
-			expectedDeviceID: physicalDeviceID,
+			name:             "Test handler physical BotDevice TurnOn",
+			expectedBody:     `{"commandType": "command","command": "turnOn","parameter": "default"}`,
+			expectedDeviceID: physicalBotDeviceID,
 			args: map[string]interface{}{
-				"device_id":  physicalDeviceID,
-				"is_turn_on": true,
+				"device_id":              physicalBotDeviceID,
+				"command_parameter_json": `{"command":"TurnOn"}`,
 			},
 		},
 		{
-			name:             "Test handler physical device TurnOff",
-			expectedBody:     "{\"commandType\": \"command\",\"command\": \"turnOff\",\"parameter\": \"default\"}",
-			expectedDeviceID: physicalDeviceID,
+			name:             "Test handler physical BotDevice TurnOff",
+			expectedBody:     `{"commandType": "command","command": "turnOff","parameter": "default"}`,
+			expectedDeviceID: physicalBotDeviceID,
 			args: map[string]interface{}{
-				"device_id":  physicalDeviceID,
-				"is_turn_on": false,
+				"device_id":              physicalBotDeviceID,
+				"command_parameter_json": `{"command":"TurnOff"}`,
+			},
+		},
+		{
+			name:             "Test handler physical BotDevice SetBrightness",
+			expectedBody:     `{"commandType": "command","command": "setBrightness","parameter": "50"}`,
+			expectedDeviceID: physicalCeilingLightDeviceID,
+			args: map[string]interface{}{
+				"device_id":              physicalCeilingLightDeviceID,
+				"command_parameter_json": `{"command":"SetBrightness", "brightness": 50}`,
 			},
 		},
 		{
 			name:             "Test handler infrared device TurnOn",
-			expectedBody:     "{\"commandType\": \"command\",\"command\": \"turnOn\",\"parameter\": \"default\"}",
+			expectedBody:     `{"commandType": "command","command": "turnOn","parameter": "default"}`,
 			expectedDeviceID: infraredDeviceId,
 			args: map[string]interface{}{
-				"device_id":  infraredDeviceId,
-				"is_turn_on": true,
+				"device_id":              infraredDeviceId,
+				"command_parameter_json": `{"command":"TurnOn"}`,
 			},
 		},
 		{
 			name:             "Test handler infrared device TurnOff",
-			expectedBody:     "{\"commandType\": \"command\",\"command\": \"turnOff\",\"parameter\": \"default\"}",
+			expectedBody:     `{"commandType": "command","command": "turnOff","parameter": "default"}`,
 			expectedDeviceID: infraredDeviceId,
 			args: map[string]interface{}{
-				"device_id":  infraredDeviceId,
-				"is_turn_on": false,
+				"device_id":              infraredDeviceId,
+				"command_parameter_json": `{"command":"TurnOff"}`,
+			},
+		},
+		{
+			name:             "Test handler air conditioner device SetAll",
+			expectedBody:     `{"commandType": "command","command": "setAll","parameter": "20,2,2,on"}`,
+			expectedDeviceID: infraredDeviceId,
+			args: map[string]interface{}{
+				"device_id":              infraredDeviceId,
+				"command_parameter_json": `{"command": "SetAll", "temperatureCelsius": 20, "mode": 2, "fan": 2, "powerState": "on"}`,
 			},
 		},
 	}
@@ -76,10 +95,17 @@ func Test_GetTurnOnOffDeviceTool(t *testing.T) {
 			switchBotMock.RegisterDevicesMock(
 				[]interface{}{
 					map[string]interface{}{
-						"deviceId":           physicalDeviceID,
+						"deviceId":           physicalBotDeviceID,
 						"deviceType":         "Bot",
 						"hubDeviceId":        "123456789",
 						"deviceName":         "BotDevice",
+						"enableCloudService": true,
+					},
+					map[string]interface{}{
+						"deviceId":           physicalCeilingLightDeviceID,
+						"deviceType":         "Ceiling Light",
+						"hubDeviceId":        "123456789",
+						"deviceName":         "CeilingLightDevice",
 						"enableCloudService": true,
 					},
 				},
@@ -97,7 +123,7 @@ func Test_GetTurnOnOffDeviceTool(t *testing.T) {
 			defer testServer.Close()
 
 			client := switchbot.NewClient("secret", "token", switchbot.OptionBaseApiURL(testServer.URL))
-			_, handler := tools.GetTurnOnOffDeviceTool(client)
+			_, handler := tools.GetExecuteCommandTool(client)
 
 			request := createMCPRequest(testData.args)
 			_, err := handler(context.Background(), request)

@@ -21,7 +21,57 @@ func GetDeviceListTool(switchBotClient *switchbot.Client) (tool mcp.Tool, handle
 				return nil, err
 			}
 
-			responseJsonText, err := json.Marshal(response.Body)
+			var devicesResponse switchbot.GetDevicesResponseBody
+
+			for _, device := range response.Body.DeviceList {
+				var deviceMap map[string]interface{}
+
+				deviceJsonText, err := json.Marshal(device)
+				if err != nil {
+					return nil, err
+				}
+				err = json.Unmarshal(deviceJsonText, &deviceMap)
+				if err != nil {
+					return nil, err
+				}
+
+				switch device.(type) {
+				case switchbot.ExecutableCommandDevice:
+					jsonSchema, err := device.(switchbot.ExecutableCommandDevice).GetCommandParameterJSONSchema()
+					if err != nil {
+						return nil, err
+					}
+					deviceMap["commandParameterJSONSchema"] = jsonSchema
+				}
+
+				devicesResponse.DeviceList = append(devicesResponse.DeviceList, deviceMap)
+			}
+
+			for _, device := range response.Body.InfraredRemoteList {
+				var deviceMap map[string]interface{}
+
+				deviceJsonText, err := json.Marshal(device)
+				if err != nil {
+					return nil, err
+				}
+				err = json.Unmarshal(deviceJsonText, &deviceMap)
+				if err != nil {
+					return nil, err
+				}
+
+				switch device.(type) {
+				case switchbot.ExecutableCommandDevice:
+					jsonSchema, err := device.(switchbot.ExecutableCommandDevice).GetCommandParameterJSONSchema()
+					if err != nil {
+						return nil, err
+					}
+					deviceMap["commandParameterJSONSchema"] = jsonSchema
+				}
+
+				devicesResponse.InfraredRemoteList = append(devicesResponse.InfraredRemoteList, deviceMap)
+			}
+
+			responseJsonText, err := json.Marshal(devicesResponse)
 			if err != nil {
 				return nil, err
 			}

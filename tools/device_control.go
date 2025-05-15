@@ -9,77 +9,71 @@ import (
 	"github.com/yasu89/switch-bot-api-go"
 )
 
-// GetTurnOnOffDeviceTool creates a tool to turn on/off a specific SwitchBot device.
-func GetTurnOnOffDeviceTool(switchBotClient *switchbot.Client) (tool mcp.Tool, handler server.ToolHandlerFunc) {
+// GetExecuteCommandTool creates a tool to execute a command on a specific SwitchBot device.
+func GetExecuteCommandTool(switchBotClient *switchbot.Client) (tool mcp.Tool, handler server.ToolHandlerFunc) {
 	return mcp.NewTool(
-			"turn_on_off_device",
-			mcp.WithDescription("Turn on/off device"),
+			"execute_command",
+			mcp.WithDescription("Execute a command on a device"),
 			mcp.WithString(
 				"device_id",
 				mcp.Required(),
-				mcp.Description("ID of the device to turn on/off"),
+				mcp.Description("ID of the device to execute a command on"),
 			),
-			mcp.WithBoolean(
-				"is_turn_on",
+			mcp.WithString(
+				"command_parameter_json",
 				mcp.Required(),
-				mcp.Description("Command to send (true:on, false:off)"),
+				mcp.Description("Command to send"),
 			),
 		),
 		func(ctx context.Context, request mcp.CallToolRequest) (*mcp.CallToolResult, error) {
 			deviceId := request.Params.Arguments["device_id"].(string)
-			isTurnOn := request.Params.Arguments["is_turn_on"].(bool)
+			commandParameterJsonText := request.Params.Arguments["command_parameter_json"].(string)
 
 			response, err := switchBotClient.GetDevices()
 			if err != nil {
 				return nil, err
 			}
 
-			var targetDevice switchbot.SwitchableDevice
+			var targetDevice switchbot.ExecutableCommandDevice
 
 			for _, physicalDevice := range response.Body.DeviceList {
 				switch physicalDevice.(type) {
-				case switchbot.SwitchableDevice:
+				case switchbot.ExecutableCommandDevice:
 					deviceIDGettable := physicalDevice.(switchbot.DeviceIDGettable)
-					switchableDevice := physicalDevice.(switchbot.SwitchableDevice)
+					executableCommandDevice := physicalDevice.(switchbot.ExecutableCommandDevice)
 					if deviceIDGettable.GetDeviceID() != deviceId {
 						continue
 					}
-					targetDevice = switchableDevice
+					targetDevice = executableCommandDevice
 				}
 			}
 
 			for _, infraredDevice := range response.Body.InfraredRemoteList {
 				switch infraredDevice.(type) {
-				case switchbot.SwitchableDevice:
+				case switchbot.ExecutableCommandDevice:
 					deviceIDGettable := infraredDevice.(switchbot.DeviceIDGettable)
-					switchableDevice := infraredDevice.(switchbot.SwitchableDevice)
+					executableCommandDevice := infraredDevice.(switchbot.ExecutableCommandDevice)
 					if deviceIDGettable.GetDeviceID() != deviceId {
 						continue
 					}
-					targetDevice = switchableDevice
+					targetDevice = executableCommandDevice
 				}
 			}
 
-			if targetDevice != nil {
-				var commandResponse *switchbot.CommonResponse
-				if isTurnOn {
-					commandResponse, err = targetDevice.TurnOn()
-				} else {
-					commandResponse, err = targetDevice.TurnOff()
-				}
-
-				if err != nil {
-					return nil, err
-				}
-
-				responseJsonText, err := json.Marshal(commandResponse)
-				if err != nil {
-					return nil, err
-				}
-
-				return mcp.NewToolResultText(string(responseJsonText)), nil
+			if targetDevice == nil {
+				return mcp.NewToolResultError("Device not found"), nil
 			}
 
-			return mcp.NewToolResultError("Device not found"), nil
+			commandResponse, err := targetDevice.ExecCommand(commandParameterJsonText)
+			if err != nil {
+				return nil, err
+			}
+
+			responseJsonText, err := json.Marshal(commandResponse)
+			if err != nil {
+				return nil, err
+			}
+
+			return mcp.NewToolResultText(string(responseJsonText)), nil
 		}
 }
