@@ -43,10 +43,10 @@ Follow the [Getting Started guide of SwitchBotAPI](https://github.com/OpenWonder
 
 ## Available Tools
 
-Currently, only a few tools are available, such as retrieving devices, retrieving statuses, and executing ON/OFF commands.
+Retrieving devices, retrieving statuses, and executing commands on devices are available.
 
-| Tool Name                      | Description                 |
-|--------------------------------|-----------------------------|
-| `get_switch_bot_devices`       | Get SwitchBot devices       |
-| `get_switch_bot_device_status` | Get SwitchBot device status |
-| `turn_on_off_device`           | Turn on/off device          |
+| Tool Name                      | Description                   |
+|--------------------------------|-------------------------------|
+| `get_switch_bot_devices`       | Get SwitchBot devices         |
+| `get_switch_bot_device_status` | Get SwitchBot device status   |
+| `execute_command`              | Execute a command on a device |

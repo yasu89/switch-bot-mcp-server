@@ -43,10 +43,10 @@ SwitchBot MCP Serverは[SwitchBotAPI](https://github.com/OpenWonderLabs/SwitchBo
 
 ## 利用可能なツール
 
-現在はデバイスの取得とステータスの取得、ON/OFFコマンドの実行の一部ツールのみが利用可能です。
+デバイスの取得とステータスの取得、デバイスのコマンドの実行が利用可能です。
 
-| Tool Name                      | Description                 |
-|--------------------------------|-----------------------------|
-| `get_switch_bot_devices`       | Get SwitchBot devices       |
-| `get_switch_bot_device_status` | Get SwitchBot device status |
-| `turn_on_off_device`           | Turn on/off device          |
+| Tool Name                      | Description                   |
+|--------------------------------|-------------------------------|
+| `get_switch_bot_devices`       | Get SwitchBot devices         |
+| `get_switch_bot_device_status` | Get SwitchBot device status   |
+| `execute_command`              | Execute a command on a device |
