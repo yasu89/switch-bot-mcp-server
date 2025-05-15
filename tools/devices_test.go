@@ -59,31 +59,34 @@ func Test_GetDeviceListTool(t *testing.T) {
 		err = json.Unmarshal([]byte(textContent.Text), &devicesResponse)
 		assert.NoError(t, err)
 
+		botDevice := switchbot.BotDevice{}
+		botDeviceJSONSchema, err := botDevice.GetCommandParameterJSONSchema()
+		assert.NoError(t, err)
+		infraredRemoteAirConditionerDevice := switchbot.InfraredRemoteAirConditionerDevice{}
+		infraredRemoteAirConditionerDeviceJSONSchema, err := infraredRemoteAirConditionerDevice.GetCommandParameterJSONSchema()
+		assert.NoError(t, err)
+
 		assertDevicesResponse(
 			t, &devicesResponse,
 			[]interface{}{
-				&switchbot.BotDevice{
-					CommonDeviceListItem: switchbot.CommonDeviceListItem{
-						CommonDevice: switchbot.CommonDevice{
-							DeviceID:    "PHYSICAL123456",
-							DeviceType:  "Bot",
-							HubDeviceId: "123456789",
-						},
-						Client:             client,
-						DeviceName:         "BotDevice",
-						EnableCloudService: true,
-					},
+				map[string]interface{}{
+					"Client":                     client,
+					"commandParameterJSONSchema": botDeviceJSONSchema,
+					"deviceId":                   "PHYSICAL123456",
+					"deviceType":                 "Bot",
+					"hubDeviceId":                "123456789",
+					"deviceName":                 "BotDevice",
+					"enableCloudService":         true,
 				},
 			},
 			[]interface{}{
-				&switchbot.InfraredRemoteAirConditionerDevice{
-					InfraredRemoteDevice: switchbot.InfraredRemoteDevice{
-						Client:      client,
-						DeviceID:    "INFRARED123456",
-						DeviceName:  "AirConditionerDevice",
-						RemoteType:  "Air Conditioner",
-						HubDeviceId: "HUB123456",
-					},
+				map[string]interface{}{
+					"Client":                     client,
+					"commandParameterJSONSchema": infraredRemoteAirConditionerDeviceJSONSchema,
+					"deviceId":                   "INFRARED123456",
+					"deviceName":                 "AirConditionerDevice",
+					"remoteType":                 "Air Conditioner",
+					"hubDeviceId":                "HUB123456",
 				},
 			},
 		)
