@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.2.3](https://github.com/yasu89/switch-bot-mcp-server/compare/v0.2.2...v0.2.3) - 2025-06-21
+### Other Changes
+- Fix Docker Image Build Action by @yasu89 in https://github.com/yasu89/switch-bot-mcp-server/pull/16
+
 ## [v0.2.2](https://github.com/yasu89/switch-bot-mcp-server/compare/v0.2.1...v0.2.2) - 2025-06-21
 ### Other Changes
 - Support Docker Image by @yasu89 in https://github.com/yasu89/switch-bot-mcp-server/pull/14
