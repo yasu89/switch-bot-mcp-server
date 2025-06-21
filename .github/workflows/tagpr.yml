@@ -47,6 +47,11 @@ jobs:
     needs: tagpr
     if: needs.tagpr.outputs.tagpr-tag != ''
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
