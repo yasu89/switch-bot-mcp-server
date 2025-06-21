@@ -17,15 +17,47 @@ The SwitchBot MCP Server is a [Model Context Protocol (MCP)](https://modelcontex
 
 ## Installation
 
-### Prepare binary
-
-Download binary from [release page](https://github.com/yasu89/switch-bot-mcp-server/releases).
-
 ### Prepare secret and token
 
 Follow the [Getting Started guide of SwitchBotAPI](https://github.com/OpenWonderLabs/SwitchBotAPI?tab=readme-ov-file#getting-started) to obtain the token and secret for SwitchBotAPI.
 
 ### Setting for Claude Desktop
+
+#### Using Docker (recommended)
+
+```json
+{
+  "mcpServers": {
+    "switchbot": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "--name",
+        "switch-bot-mcp-server",
+        "-e",
+        "SWITCH_BOT_TOKEN",
+        "-e",
+        "SWITCH_BOT_SECRET",
+        "yasu89/switch-bot-mcp-server:alpha"
+      ],
+      "env": {
+        "SWITCH_BOT_TOKEN": "YOUR_SWITCH_BOT_TOKEN",
+        "SWITCH_BOT_SECRET": "YOUR_SWITCH_BOT_SECRET"
+      }
+    }
+  }
+}
+```
+
+#### Using binary
+
+<details>
+
+<summary>Details</summary>
+
+Download binary from [release page](https://github.com/yasu89/switch-bot-mcp-server/releases).
 
 ```json
 {
@@ -40,6 +72,8 @@ Follow the [Getting Started guide of SwitchBotAPI](https://github.com/OpenWonder
   }
 }
 ```
+
+</details>
 
 ## Available Tools
 
