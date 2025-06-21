@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.2.4](https://github.com/yasu89/switch-bot-mcp-server/compare/v0.2.3...v0.2.4) - 2025-06-21
+### Other Changes
+- fix permissions for docker-release job by @yasu89 in https://github.com/yasu89/switch-bot-mcp-server/pull/18
+
 ## [v0.2.3](https://github.com/yasu89/switch-bot-mcp-server/compare/v0.2.2...v0.2.3) - 2025-06-21
 ### Other Changes
 - Fix Docker Image Build Action by @yasu89 in https://github.com/yasu89/switch-bot-mcp-server/pull/16
