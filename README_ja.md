@@ -17,15 +17,47 @@ SwitchBot MCP Serverは[SwitchBotAPI](https://github.com/OpenWonderLabs/SwitchBo
 
 ## インストール方法
 
-### バイナリ準備
-
-[リリースページ](https://github.com/yasu89/switch-bot-mcp-server/releases)からダウンロードしてください。
-
 ### シークレットとトークンの準備
 
 [SwitchBotAPIのGetting Started](https://github.com/OpenWonderLabs/SwitchBotAPI?tab=readme-ov-file#getting-started)に従って、SwitchBotAPIのトークンとシークレットを取得してください。
 
 ### Claude Desktopで使用する場合の設定
+
+#### Dockerを使用する(推奨)
+
+```json
+{
+  "mcpServers": {
+    "switchbot": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "--name",
+        "switch-bot-mcp-server",
+        "-e",
+        "SWITCH_BOT_TOKEN",
+        "-e",
+        "SWITCH_BOT_SECRET",
+        "yasu89/switch-bot-mcp-server:latest"
+      ],
+      "env": {
+        "SWITCH_BOT_TOKEN": "YOUR_SWITCH_BOT_TOKEN",
+        "SWITCH_BOT_SECRET": "YOUR_SWITCH_BOT_SECRET"
+      }
+    }
+  }
+}
+```
+
+#### バイナリを使用する
+
+<details>
+
+<summary>詳細</summary>
+
+[リリースページ](https://github.com/yasu89/switch-bot-mcp-server/releases)からダウンロードしてください。
 
 ```json
 {
@@ -40,6 +72,8 @@ SwitchBot MCP Serverは[SwitchBotAPI](https://github.com/OpenWonderLabs/SwitchBo
   }
 }
 ```
+
+</details>
 
 ## 利用可能なツール
 
