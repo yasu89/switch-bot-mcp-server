@@ -40,7 +40,7 @@ Follow the [Getting Started guide of SwitchBotAPI](https://github.com/OpenWonder
         "SWITCH_BOT_TOKEN",
         "-e",
         "SWITCH_BOT_SECRET",
-        "yasu89/switch-bot-mcp-server:alpha"
+        "yasu89/switch-bot-mcp-server:latest"
       ],
       "env": {
         "SWITCH_BOT_TOKEN": "YOUR_SWITCH_BOT_TOKEN",

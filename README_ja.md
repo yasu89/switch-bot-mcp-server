@@ -40,7 +40,7 @@ SwitchBot MCP Serverは[SwitchBotAPI](https://github.com/OpenWonderLabs/SwitchBo
         "SWITCH_BOT_TOKEN",
         "-e",
         "SWITCH_BOT_SECRET",
-        "yasu89/switch-bot-mcp-server:alpha"
+        "yasu89/switch-bot-mcp-server:latest"
       ],
       "env": {
         "SWITCH_BOT_TOKEN": "YOUR_SWITCH_BOT_TOKEN",
