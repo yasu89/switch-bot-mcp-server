@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.2.2](https://github.com/yasu89/switch-bot-mcp-server/compare/v0.2.1...v0.2.2) - 2025-06-21
+### Other Changes
+- Support Docker Image by @yasu89 in https://github.com/yasu89/switch-bot-mcp-server/pull/14
+
 ## [v0.2.1](https://github.com/yasu89/switch-bot-mcp-server/compare/v0.2.0...v0.2.1) - 2025-06-21
 ### Other Changes
 - update dependencies for switch-bot-api-go and related libraries by @yasu89 in https://github.com/yasu89/switch-bot-mcp-server/pull/12
